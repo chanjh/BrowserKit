@@ -1,0 +1,8 @@
+platform :ios, '14.0'
+
+target 'BrowserKitExample' do
+  use_frameworks!
+  pod 'BrowserKit', :path=>'../'
+  pod 'GCWebContainer', :path=>'../../GCWebContainer'
+  pod 'Pandora', :path=>'../../Pandora/ios'
+end

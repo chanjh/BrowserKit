@@ -1,0 +1,8 @@
+.DS_Store
+
+Example/Podfile.lock
+Example/Pods/**/*
+Example/xcuserdata/
+Example/project.xcworkspace/
+Example/DerivedData/
+Example/BrowserKitExample.xcworkspace/xcuserdata/**/*
