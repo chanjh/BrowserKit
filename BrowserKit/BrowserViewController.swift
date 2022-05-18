@@ -18,6 +18,7 @@ open class BrowserViewController: UIViewController {
         self.browserView = BrowserView()
         let webView = TabsManager.shared.makeBrowser(model: browserView, ui: browserView, for: url)
         browserView.reload(webView: webView)
+        TabsManager.shared.updateActiveWebView(webView.identifier)
         if let url = url {        
             browserView.load(url: url)
         }
@@ -98,6 +99,7 @@ extension BrowserViewController: BrowserViewDelegate, BrowserMenuControllerDeleg
     // --- TabsManagerViewControllerDelegate
     func didSelectWebView(_ webView: PDWebView) {
         browserView.reload(webView: webView)
+        TabsManager.shared.updateActiveWebView(webView.identifier)
     }
     
     func didAddUrl(_ url: URL?) -> Tab? {
@@ -106,6 +108,7 @@ extension BrowserViewController: BrowserViewDelegate, BrowserMenuControllerDeleg
         if let url = url {        
             browserView.load(url: url)
         }
+        TabsManager.shared.updateActiveWebView(webView.identifier)
         return Tab(id: webView.identifier)
     }
     
@@ -138,9 +141,11 @@ extension BrowserViewController: PDTabsEventListerner {
         if tabId == browserView.gcWebView?.identifier {
            if let web = TabsManager.shared.browser(at: 0) {
                browserView.reload(webView: web)
+               TabsManager.shared.updateActiveWebView(web.identifier)
            } else {
                let web = TabsManager.shared.makeBrowser(model: browserView, ui: browserView, for: nil)
                browserView.reload(webView: web)
+               TabsManager.shared.updateActiveWebView(web.identifier)
            }
         }
     }

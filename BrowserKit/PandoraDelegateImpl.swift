@@ -49,4 +49,8 @@ extension PandoraDelegateImpl: IPandoraTabsManager {
     func webView(in identifier: Int) -> PDWebView? {
         return TabsManager.shared.browser(for: identifier)
     }
+    
+    func query(_ query: TabQueryInfo) -> [Tab] {
+        return TabsManager.shared.query(query)
+    }
 }

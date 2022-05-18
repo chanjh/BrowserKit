@@ -127,6 +127,11 @@ extension BrowserView: WebContainerNavigator {
 }
 extension BrowserView: WebContainerUIConfig,
                        WebContainerModelConfig {
+    var cookie: WebContainerCookieHandler? {
+        // todo
+        nil
+    }
+    
     var webView: GCWebView {
         return self.gcWebView!
     }

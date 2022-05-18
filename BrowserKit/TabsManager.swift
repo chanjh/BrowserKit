@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Pandora
 
 class TabsManager {
     static let shared = TabsManager()
@@ -14,6 +14,8 @@ class TabsManager {
     public private(set) var pool: [PDWebView] = [];
     
     var count: Int { return pool.count }
+    
+    private var activeId: Int?
     
     private var observers: NSHashTable<PDTabsEventListerner> = NSHashTable(options: .weakMemory)
     
@@ -56,11 +58,32 @@ class TabsManager {
             remove(identifier)
         }
     }
+    
     func remove(_ identifier: Int) {
         pool.removeAll { $0.identifier == identifier }
         observers.allObjects.forEach {
             $0.onRemoved(tabId: identifier, removeInfo: TabRemoveInfo(isWindowClosing: false, windowId: true))
         }
         BrowserManager.shared.remove(identifier)
+    }
+    
+    func updateActiveWebView(_ identifier: Int?) {
+        if let _ = pool.first(where: { $0.identifier == identifier }) {
+            activeId = identifier
+        }
+    }
+    
+    func query(_ query: TabQueryInfo) -> [Tab] {
+        if (query.active) {
+            return pool.compactMap({
+                if $0.identifier == activeId {
+                    let tab = Tab(id: $0.identifier)
+                    tab.url = $0.url?.absoluteString
+                    return tab
+                }
+                return nil
+            })
+        }
+        return []
     }
 }
