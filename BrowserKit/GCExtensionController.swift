@@ -60,7 +60,7 @@ extension GCExtensionController {
                     let progress = task.progress.fractionCompleted
                     print("下载中, 进度：\(progress)")
                 }.success { (task) in
-                    PDFileManager.setupPandora(zipPath: URL(string:  task.filePath))
+                    PDFileManager.installPandora(zipPath: URL(string:  task.filePath))
                     print("下载完成")
                 }.failure { (task) in
                     print("下载失败")

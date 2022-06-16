@@ -6,6 +6,7 @@
 //
 
 import SnapKit
+import Pandora
 
 protocol TabsManagerViewControllerDelegate: NSObjectProtocol {
     func didSelectWebView(_ webView: PDWebView)
@@ -76,17 +77,23 @@ extension TabsManagerViewController: UITableViewDataSource, UITableViewDelegate 
 extension TabsManagerViewController {
     @objc
     func didClickAddBrowser() {
-        let alert = UIAlertController(title: "URL", message: nil, preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.text = "https://chanjh.com"
-        }
-        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: { [weak self] _ in
-            if let url = URL(string: alert.textFields?.first?.text ?? "") {
-                self?.delegate?.didAddUrl(url)
-                self?.dismiss(animated: true, completion: nil)
+        if let newTab = PDManager.shared.newTabUrl,
+           let url = URL(string: newTab) {
+            _ = delegate?.didAddUrl(url)
+            dismiss(animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "URL", message: nil, preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.text = "https://chanjh.com"
             }
-        }))
-        alert.addAction((UIAlertAction(title: "cancel", style: .cancel, handler: nil)))
-        present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: { [weak self] _ in
+                if let url = URL(string: alert.textFields?.first?.text ?? "") {
+                    _ = self?.delegate?.didAddUrl(url)
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            }))
+            alert.addAction((UIAlertAction(title: "cancel", style: .cancel, handler: nil)))
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
