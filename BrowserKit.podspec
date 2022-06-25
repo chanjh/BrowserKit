@@ -19,7 +19,7 @@ BrowserKit
   s.swift_versions = '5.0'
   
   s.dependency 'SnapKit', '~> 5.0.0'
-  s.dependency 'GCWebContainer', '~> 0.1.0'
+  s.dependency 'GCWebContainer', '~> 0.1.5'
   s.dependency 'Pandora', '~> 0.1.0'
   s.dependency 'Tiercel'
 end
