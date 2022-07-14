@@ -167,6 +167,14 @@ extension BrowserView: UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let url = URL(string: textField.text ?? "") {
+            load(url: url)
+        }
+        textField.resignFirstResponder()
+        return true;
+    }
+    
     @objc func didClickTabs() {
         delegate?.didClickTabs()
     }
