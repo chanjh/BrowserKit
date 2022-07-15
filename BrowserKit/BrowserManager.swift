@@ -34,7 +34,7 @@ class BrowserManager: NSObject {
     func makeBrowser(model: WebContainerModelConfig? = nil,
                      ui: WebContainerUIConfig? = nil,
                      for url: URL? = nil) -> PDWebView {
-        let makeBrowserAction = url?.scheme == PDURLSchemeHandler.scheme && PDManager.shared.pandoras.contains(where: { $0.id == url?.host })
+        let makeBrowserAction = url?.isExtensionUrl ?? false
         if makeBrowserAction {
             return makeBrowserActionBrowser(model: model, ui: ui, pdId: (url?.host)!)
         }
